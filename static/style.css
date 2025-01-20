@@ -1,0 +1,126 @@
+body {
+     
+    font-family: "Poppins", serif;
+    background: url(bg1.jpg) no-repeat left top;
+    background-size:cover;
+  }
+  ul,li,ol{ list-style: none;}
+  .main-content a{ text-decoration: none !important;}
+  .logo img{ max-width: 150px;}
+  a{ cursor: pointer;}
+  /* Header Styling */
+  .header {
+    color: white;
+    padding: 10px 20px;
+    position: sticky;
+    z-index: 999;
+    top:0;
+    background: url(bg1.jpg) no-repeat left top;
+    background-size: cover;
+  }
+  .header .logout-btn {
+    color: white;
+    border: 1px solid white;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+  .header .logout-btn:hover {
+    background-color: white;
+    color: #0056b3;
+  }
+
+  /* Sidebar Styling */
+  .sidebar {
+    height: 100vh;
+    width: 250px;
+    color: white;
+    position: fixed;
+    top: 0;
+    padding-top: 100px; /* Space for header */
+  }
+  .sidebar ul{ padding:0;}
+  .sidebar a {
+    color: white;
+    text-decoration: none;
+    padding: 15px 20px;
+    display: flex;
+    align-items: center;
+    transition: background-color 0.3s ease;
+  }
+  .sidebar a i {
+    margin-right: 10px;
+  }
+  .sidebar a:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+  .sidebar .sidebar-header {
+    text-align: center;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+
+  /* Main Content Styling */
+  .main-content {
+    background:#fff;
+    margin-left: 250px;
+    padding: 20px;
+    min-height: 100vh;
+  }
+  .asset-card {
+    border-radius: 8px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    color: #000;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.6));
+    height: 200px;
+    text-decoration: none;
+}
+.asset-card.laptops {
+    background: url(icon1.png) no-repeat left top; background-size:cover;
+}
+.asset-card.laptops .count{ color:#ae0030}
+.asset-card.desktops {
+    background: url(icon2.png) no-repeat left top; background-size:cover;
+}
+.asset-card.desktops .count{ color:#1036a1}
+.asset-card.other-assets {
+    background: url(icon3.png) no-repeat left top; background-size:cover;
+}
+.asset-card.other-assets .count{ color:#d24802}
+.asset-card.add-assets {
+    background: url(icon4.png) no-repeat left top; background-size:cover;
+}
+.asset-card h5 {
+    font-weight: bold;
+    margin: 0;
+}
+.asset-card .icon {
+    font-size: 3rem;
+}
+.asset-card .count {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-top: 10px;
+}
+.asset-card:hover {
+    transform: translateY(-5px);
+    transition: all 0.3s ease;
+}
+.main-content .container{ max-width: 90%; margin:0 auto;}
+.history-modal .modal-dialog{ max-width: 90% !important; height: 90vh;  max-height: 90vh;}
+.history-modal .modal-dialog .modal-content{ height:100%;}
+  @media (max-width: 768px) {
+    .sidebar {
+      width: 100%;
+      height: auto;
+      position: static;
+    }
+    .main-content {
+      margin-left: 0;
+    }
+  }
+  
+
+ 

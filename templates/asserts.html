@@ -1,0 +1,78 @@
+
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container py-5">
+    <div class="row g-4">
+        <!-- Laptops -->
+        <div class="col-12 col-sm-6 col-lg-3">
+            <a href="{{ url_for('total_systems')}}" class="asset-card laptops">
+                <div>
+                    <h5>LAPTOPS</h5>
+                    <div class="count">{{ total_systems }}</div>
+                </div>
+                <div class="icon text-danger">
+                    <i class="bi bi-laptop"></i>
+                </div>
+            </a>
+        </div>
+ 
+        <!-- Desktops -->
+        <div class="col-12 col-sm-6 col-lg-3">
+            <a href="{{ url_for('desktop_dashboard')}}" class="asset-card desktops">
+                <div>
+                    <h5>DESKTOPS</h5>
+                    <div class="count">{{ desktop_total }}</div>
+                </div>
+                <div class="icon text-primary">
+                    <i class="bi bi-pc-display"></i>
+                </div>
+            </a>
+        </div>
+ 
+        <!-- Other Assets -->
+        <div class="col-12 col-sm-6 col-lg-3">
+            <a href="#" class="asset-card other-assets">
+                <div>
+                    <h5>OTHER ASSETS</h5>
+                    <div class="count">0</div>
+                </div>
+                <div class="icon text-warning">
+                    <i class="bi bi-collection"></i>
+                </div>
+            </a>
+        </div>
+ 
+        <!-- Add Assets -->
+        <div class="col-12 col-sm-6 col-lg-3">
+            <a href="#" class="asset-card add-assets">
+                <div>
+                    <h5>ADD ASSETS</h5>
+                </div>
+                <div class="icon text-dark">
+                    <i class="bi bi-plus-circle"></i>
+                </div>
+            </a>
+        </div>
+        <!-- Add Assets -->
+        <div class="col-12 col-sm-6 col-lg-3">
+            <a href="{{ url_for('history') }}" class="asset-card laptops">
+                <div>
+                    <h5>HISTORY</h5>
+                </div>
+                <div class="icon text-dark">
+                    <i class="bi bi-clock-history"></i>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- history Model -->
+
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
+
+{% endblock %}

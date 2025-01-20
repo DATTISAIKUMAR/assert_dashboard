@@ -1,0 +1,359 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+  <!-- Main Content -->
+  
+    <!-- Dashboard -->
+    <div class="container my-5">
+      <div class="text-center text-danger my-3" role="alert">
+          <h3>{{ message }}</h3>
+      </div>
+      <div class="row g-4">
+        <!-- Laptops -->
+        <div class="col-12 col-sm-6 col-lg-3">
+            <a href="{{ url_for('total_systems') }}" class="asset-card laptops">
+                <div>
+                    <h5>Total Systems</h5>
+                    <div class="count">{{ total_systems }}</div>
+                </div>
+                <div class="icon text-danger">
+                  <i class="fas fa-laptop "></i>
+                </div>
+            </a>
+        </div>
+ 
+        <!-- Desktops -->
+        <div class="col-12 col-sm-6 col-lg-3">
+            <a href="{{ url_for('assign_systems') }}" class="asset-card desktops">
+                <div>
+                    <h5>Assigned</h5>
+                    <div class="count">{{ assign_data }}</div>
+                </div>
+                <div class="icon text-primary">
+                  <i class="fas fa-user-check "></i>
+                </div>
+            </a>
+        </div>
+ 
+        <!-- Other Assets -->
+        <div class="col-12 col-sm-6 col-lg-3">
+            <a href="{{ url_for('issue_systems') }}" class="asset-card other-assets">
+                <div>
+                    <h5>Issues</h5>
+                    <div class="count">{{ issue_data }}</div>
+                </div>
+                <div class="icon text-warning">
+                  <i class="fas fa-exclamation-triangle "></i>
+                </div>
+            </a>
+        </div>
+ 
+        <!-- Add Assets -->
+        <div class="col-12 col-sm-6 col-lg-3">
+            <a href="{{ url_for('unassign_systems') }}" class="asset-card add-assets">
+                <div>
+                    <h5>Unassigned</h5>
+                    <div class="count">{{ unassign_data }}</div>
+
+                </div>
+                <div class="icon text-dark">
+                  <i class="fas fa-user-clock "></i>
+                </div>
+            </a>
+        </div>
+    </div>
+
+
+    </div>
+
+<div class="container">
+    <div class="row">
+      <div class="col-xl-3">
+          <form method="GET" action="/laptopid" class="row gy-2 gx-3 align-items-center mb-3">
+              <div class="col-auto">
+                  <input type="text" class="form-control" value="{{search_element}}" name="search_element" id="autoSizingInput"
+                      placeholder="Laptopid...">
+              </div>
+              
+              <div class="col-auto">
+                  <button type="submit" class="btn btn-primary">Search</button>
+              </div>
+          </form>
+      </div>
+
+      <div class="col-xl-3">
+        <form method="GET" action="/name_filter" class="row gy-2 gx-3 align-items-center mb-3">
+            <div class="col-auto">
+                <input type="text" class="form-control" value="{{search_element1}}" name="search_element" id="autoSizingInput"
+                    placeholder="Name...">
+            </div>
+            
+            <div class="col-auto">
+                <button type="submit" class="btn btn-primary">Search</button>
+            </div>
+        </form>
+    </div>
+  </div>
+</div>
+
+    <!-- System Details Table -->
+    <div class="container my-5">
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <h3 class="mb-0">System Details</h3>
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addsystemsModal" ><i class="fas fa-cogs"></i> Add Laptop List</button>
+    </div>
+    
+    
+     
+      <table class="table table-hover table-striped">
+        <thead class="table-primary">
+          <tr>
+            <th scope="col">Laptop ID</th>
+            <th scope="col">Employee Name</th>
+            <th scope="col">Serial Number</th>
+            <th scope="col">Product Name</th>
+            <th scope="col">Configuration</th>
+            <th scope="col">Status</th>
+            <th scope="col">Start Date</th>
+            <th scope="col">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for item in data %}
+          <tr>
+            <td>{{ item.laptopid }}</td>
+            <td>{{ item.name }}</td>
+            <td>{{ item.serial_no }}</td>
+            <td>{{ item.product }}</td>
+            <td>{{ item.configuration }}</td>
+            <td><span class="badge bg-success">{{ item.status }}</span></td>
+            <td>{{ item.date }}</td>
+            <td>
+              <a class="mx-3" data-bs-toggle="modal" data-bs-target="#exampleModal-{{ item.id }}"><i class="fas fa-exclamation-circle"></i></a>
+
+                  <!-- Modal -->
+      <div class="modal fade" id="exampleModal-{{ item.id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+             
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <form method="post" action="/issue/{{ item.id}}">
+                <!-- Laptop ID -->
+                <div class="mb-3">
+                  <label for="laptopId" class="form-label">Laptop ID *</label>
+                  <input type="text" class="form-control" id="laptopId" placeholder="Enter Laptop ID" required name="laptopid" value="{{ item.laptopid }}">
+                </div>
+
+                <div class="mb-3">
+                  <label for="serialno" class="form-label">Serial No *</label>
+                  <input type="text" class="form-control" id="serialno" placeholder="Enter Employee Name" required name="serial_no" value="{{ item.serial_no }}">
+                </div>
+      
+                <!-- Employee Name -->
+                <div class="mb-3">
+                  <label for="employeeName" class="form-label">Employee Name *</label>
+                  <input type="text" class="form-control" id="employeeName" placeholder="Enter Employee Name" name="name" value="{{ item.name }}" required>
+                </div>
+      
+               
+      
+      
+                <!-- Issue Reported -->
+                <div class="mb-3">
+                  <label for="issue" class="form-label">Issue Reported (if any) *</label>
+                  <textarea class="form-control" id="issue" rows="3" placeholder="Describe the issue (if any)" name="issue" value="{{ item.issue }}" required></textarea>
+                </div>
+      
+                  <!-- Assigned date  -->
+                  <div class="mb-3">
+                    <label for="issue" class="form-label">Issue Date *</label>
+                    <input type="date" class="form-control" id="issue" rows="3" placeholder="Assigned date" name="date" value="{{ item.date }}" required>
+                  </div>
+      
+                <!-- Status -->
+                <div class="mb-3">
+                  <label for="status" class="form-label">Status *</label>
+                  <select class="form-select" id="status" required name="status">
+                    <option value="Issue">Issue Reported</option>
+                  </select>
+                </div>
+      
+                <!-- Submit Button -->
+                <div class="text-center">
+                 
+                  <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+              </form>
+            </div>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+              <a  data-bs-toggle="modal" data-bs-target="#editModal-{{ item.id }}"><i class="fas fa-edit"></i></a>
+              <!-- <a href="/edit_data/{{ item.id }}"><button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#editModal"><i class="fas fa-edit"></i> Edit</button></a> -->
+
+
+
+
+
+              
+<!-- Modal -->
+<div class="modal fade" id="editModal-{{ item.id }}" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editModalLabel">Modal title</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form method="post" action="/edit_data/{{ item.id }}">
+          <!-- Laptop ID -->
+          <div class="mb-3">
+            <label for="laptopId" class="form-label">Laptop ID *</label>
+            <input type="text" class="form-control" id="laptopId" placeholder="Enter Laptop ID" required name="laptopid" value="{{ item.laptopid }}" required>
+          </div>
+
+          <!-- Employee Name -->
+          <div class="mb-3">
+            <label for="employeeName" class="form-label">Employee Name</label>
+            <input type="text" class="form-control" id="employeeName" placeholder="Enter Employee Name" name="name" value="{{ item.name }}" required>
+          </div>
+
+          <div class="mb-3">
+            <label for="serialno" class="form-label">Serial No *</label>
+            <input type="text" class="form-control" id="serialno" placeholder="Enter Employee Name" required name="serial_no" value="{{ item.serial_no }}" required>
+          </div>
+
+          <div class="mb-3">
+            <label for="productname" class="form-label">Product Name *</label>
+            <input type="text" class="form-control" id="productname" placeholder="Enter Employee Name" required name="product" value="{{ item.product }}" required>
+          </div>
+
+          <!-- Configuration Details -->
+          <div class="mb-3">
+            <label for="configuration" class="form-label">Configuration *</label>
+            <input type="text" class="form-control" id="configuration" placeholder="e.g., Intel i5, 8GB RAM, 256GB SSD" required name="configuration" value="{{ item.configuration }}" required>
+          </div>
+
+      
+            <!-- Assigned date  -->
+            <div class="mb-3">
+              <label for="issue" class="form-label">Assigned Date *</label>
+              <input type="date" class="form-control" id="issue" rows="3" placeholder="Assigned date" name="date" value="{{ item.date }}" required>
+            </div>
+
+          <!-- Status -->
+          <div class="mb-3">
+            <label for="status" class="form-label">Status *</label>
+            <select class="form-select" id="status" required name="status" value="{{ item.status }}" required>
+              <option value="Assigned">Assigned</option>
+              <option value="Issue">Issue Reported</option>
+              <option value="Unassigned">Unassigned</option>
+            </select>
+          </div>
+
+          <!-- Submit Button -->
+          <div class="text-center">
+           
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+      </div>
+      
+    </div>
+  </div>
+</div>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+<!-- add systems -->
+ <!-- Modal -->
+ 
+ <div class="modal fade" id="addsystemsModal" tabindex="-1" aria-labelledby="addsystemsModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addsystemsModalLabel">Add Laptop Details</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+       
+        <form method="post" action="/add_systems">
+          <!-- Laptop ID -->
+          <div class="mb-3">
+            <label for="laptopId" class="form-label">Laptop ID *</label>
+            <input type="text" class="form-control" id="laptopId" placeholder="Enter Laptop ID" required name="laptopid">
+          </div>
+
+          <!-- Employee Name -->
+          <div class="mb-3">
+            <label for="employeeName" class="form-label">Employee Name</label>
+            <input type="text" class="form-control" id="employeeName" placeholder="Enter Employee Name" name="name">
+          </div>
+
+          <div class="mb-3">
+            <label for="serialno" class="form-label">Serial No *</label>
+            <input type="text" class="form-control" id="serialno" placeholder="Enter Employee Name" required name="serial_no">
+          </div>
+
+          <div class="mb-3">
+            <label for="productname" class="form-label">Product Name *</label>
+            <input type="text" class="form-control" id="productname" placeholder="Enter Employee Name" required name="product">
+          </div>
+
+          <!-- Configuration Details -->
+          <div class="mb-3">
+            <label for="configuration" class="form-label">Configuration *</label>
+            <input type="text" class="form-control" id="configuration" placeholder="e.g., Intel i5, 8GB RAM, 256GB SSD" required name="configuration">
+          </div>
+
+          <!-- Recived by -->
+          <div class="mb-3">
+            <label for="issue" class="form-label">Recived by *</label>
+            <input type="text" class="form-control" id="issue" rows="3" placeholder="received by" name="receiver" required>
+          </div>
+
+            <!-- Assigned date  -->
+            <div class="mb-3">
+              <label for="issue" class="form-label">Assigned Date *</label>
+              <input type="date" class="form-control" id="issue" rows="3" placeholder="Assigned date" name="date" required>
+            </div>
+
+          <!-- Status -->
+          <div class="mb-3">
+            <label for="status" class="form-label">Status *</label>
+            <select class="form-select" id="status" required name="status">
+              <option value="Assigned">Assigned</option>
+              <option value="Issue">Issue Reported</option>
+              <option value="Unassigned">Unassigned</option>
+            </select>
+          </div>
+
+          <!-- Submit Button -->
+          <div class="text-center">
+           
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </div>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+    
+  
+  <!-- Button trigger modal -->
+
+  {% endblock %}

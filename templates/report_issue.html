@@ -1,0 +1,138 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+  
+    <!-- System Details Table -->
+    <div class="container my-5">
+      <h3 class="mb-4">Issue Systems</h3>
+      <table class="table table-hover table-striped">
+        <thead class="table-primary">
+          <tr>
+            <th scope="col">Laptop Id</th>
+            <th scope="col">Employee Name</th>
+            <th scope="col">Serial Number</th>
+            <th scope="col">Issue</th>
+            <th scope="col">Status</th>
+            <th scope="col">Date</th>
+            <th scope="col">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for item in data %}
+          <tr>
+            <td>{{ item.laptopid }}</td>
+            <td>{{ item.name }}</td>
+            <td>{{ item.serial_no }}</td>
+            <td>{{ item.issue }}</td>
+            <td><span class="badge bg-success">{{ item.status }}</span></td>
+            <td>{{ item.date }}</td>
+            <td><a onclick="showAlert('/delete_issue/{{item.id}}')"><button class="btn btn-sm" ><i class="fa-solid fa-trash"></i></button></a>
+
+
+
+              
+              <a  data-bs-toggle="modal" data-bs-target="#editModal-{{ item.id }}"><i class="fas fa-edit"></i> </a>
+              <!-- <a href="/edit_data/{{ item.id }}"><button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#editModal"><i class="fas fa-edit"></i> Edit</button></a> -->
+
+
+
+
+
+              
+<!-- Modal -->
+<div class="modal fade" id="editModal-{{ item.id }}" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editModalLabel">Modal title</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form method="post" action="/update_laptop_issue_data/{{ item.id }}">
+          <!-- Laptop ID -->
+          <div class="mb-3">
+            <label for="laptopId" class="form-label">Laptop ID *</label>
+            <input type="text" class="form-control" id="laptopId" placeholder="Enter Laptop ID" required name="laptopid" value="{{ item.laptopid }}">
+          </div>
+
+          <!-- Employee Name -->
+          <div class="mb-3">
+            <label for="employeeName" class="form-label">Employee Name</label>
+            <input type="text" class="form-control" id="employeeName" placeholder="Enter Employee Name" name="name" value="{{ item.name }}">
+          </div>
+
+          <div class="mb-3">
+            <label for="serialno" class="form-label">Serial No *</label>
+            <input type="text" class="form-control" id="serialno" placeholder="Enter Employee Name" required name="serial_no" value="{{ item.serial_no }}">
+          </div>
+
+          <div class="mb-3">
+            <label for="productname" class="form-label">Product Name *</label>
+            <input type="text" class="form-control" id="productname" placeholder="Enter Employee Name" required name="product" value="{{ item.managedataId.product }}">
+          </div>
+
+          <!-- Configuration Details -->
+          <div class="mb-3">
+            <label for="configuration" class="form-label">Configuration *</label>
+            <input type="text" class="form-control" id="configuration" placeholder="e.g., Intel i5, 8GB RAM, 256GB SSD" required name="configuration" value="{{ item.managedataId.configuration }}">
+          </div>
+
+      
+            <!-- Assigned date  -->
+            <div class="mb-3">
+              <label for="issue" class="form-label">Assigned Date *</label>
+              <input type="date" class="form-control" id="issue" rows="3" placeholder="Assigned date" name="date" value="{{ item.date }}" required>
+            </div>
+
+          <!-- Status -->
+          <div class="mb-3">
+            <label for="status" class="form-label">Status *</label>
+            <select class="form-select" id="status" required name="status" value="{{ item.status }}">
+              <option value="Assigned">Assigned</option>
+              <option value="Issue">Issue Reported</option>
+              <option value="Unassigned">Unassigned</option>
+            </select>
+          </div>
+
+          <!-- Submit Button -->
+          <div class="text-center">
+           
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+      </div>
+      
+    </div>
+  </div>
+</div>
+            
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+    <div class="container mr-10">
+      <nav aria-label="Page navigation example">
+        <ul class="pagination">
+    
+          {% if total_pages%}
+          {% for count in range(1,total_pages+1) %}
+            <li class="page-item"><a class="page-link" href="/pagination_laptop_issue/{{count}}">{{ count }}</a></li>
+          {% endfor %}
+          {% endif %}
+    
+        </ul>
+      </nav>
+    </div>
+    <script>
+      function showAlert(url) {
+        if(confirm("Are you sure want to delete..")){
+          window.location.href = url;
+
+        }
+      }
+      </script>
+  
+{% endblock %}
